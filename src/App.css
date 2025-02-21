@@ -1,0 +1,35 @@
+.europe-color {
+    color: yellow;
+}
+
+.asia-color {
+    color: red;
+}
+
+.africa-color {
+    color: blue;
+}
+
+.north-america-color {
+    color: darkgreen;
+}
+
+.south-america-color {
+    color: forestgreen;
+}
+
+.oceania-color {
+    color: purple;
+}
+
+.antarctica-color {
+    color: brown;
+}
+
+.default-color {
+    color: black;
+}
+
+.pic {
+    width: 50px;
+}

@@ -8,24 +8,55 @@ function App() {
     async function handleData() {
         try {
             const response = await axios.get("https://restcountries.com/v3.1/all");
-            // console.log(response.data)
-            setCountryData(response.data)
+            console.log(response.data)
+            const sortedData = response.data.sort((a, b) => a.population - b.population); // Sorteer op populatie
+
+            setCountryData(sortedData);
         } catch (e) {
-            //errors afhandelen (console en UI)
+
         } finally {
 
         }
     }
 
+    function getRegionColor(continent) {
+        switch (continent) {
+            case "Europe":
+                return "europe-color";
+            case "Asia":
+                return "asia-color";
+            case "Africa":
+                return "africa-color";
+            case "South America":
+                return "south-america-color";
+            case "North America":
+                return "north-america-color";
+            case "Oceania":
+                return "oceania-color";
+            case "Antarctica":
+                return "antarctica-color";
+            default:
+                return "default-color"; //
+        }
+    }
+
+
     return (
         <>
-            <button type="button" onClick={handleData}>klik hier</button>
-                {countryData.length > 0 && <h1>Eerste land: {countryData[0].name.common} <br />
-                    Has a population of {countryData[0].population} people</h1>}
+            <button type="button" onClick={handleData}>Klik hier</button>
+
+            <ul>
+                {countryData.map(country => (
+                    <li key={country.cca3} className={getRegionColor(country.continents[0])}>
+                        {country.name.common} ({country.continents[0]}) <br/>
+                        Has a population of {country.population.toLocaleString()} people
+                        <br/>
+                        <img src={country.flags.png} alt="flag" className="pic"/>
+                    </li>
+                ))}
+            </ul>
         </>
-    )
+    );
+
 }
-
-
-
 export default App

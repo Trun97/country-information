@@ -5,6 +5,7 @@ body {
   flex-direction: column;
   align-items: center;
   font-family: 'Roboto Condensed', sans-serif;
+  background-color: lightgrey;
 }
 
 h1, h2, h3 {
