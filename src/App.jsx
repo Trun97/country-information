@@ -40,22 +40,30 @@ function App() {
                 return "default-color"; //
         }
     }
-async function handleNewData () {
+
+    const [countryInfo, setCountryInfo] = useState([])
+
+    async function handleNewData() {
         try {
             const result = await axios.get("https://restcountries.com/v3.1/all");
             // console.log(result.data);
             const newData = result.data.filter((land) => land.name.common === "Netherlands");
-            console.log(newData);
-        }catch (e){
+            // console.log(newData[0].name.common);
+            // console.log(newData[0].capital[0]);
+            setCountryInfo(newData);
+            // console.log(countryInfo);
+        } catch (e) {
         }
-}
-
+    }
+    // console.log(countryInfo[0].name.common);
     return (
         <>
             <img src={map} alt="map"/>
             <h1>Wordl regions</h1>
             <br/>
-            <button type="button" onClick={handleData}>Klik hier</button>
+            <div className="buttons">
+                <button type="button" onClick={handleData}>Klik hier</button>
+            </div>
             <ul>
                 {countryData.map(country => (
                     <li key={country.cca3} className={getRegionColor(country.continents[0])}>
@@ -67,9 +75,14 @@ async function handleNewData () {
                 ))}
             </ul>
             <h1>Search country information</h1>
-            <button type="button" onClick={handleNewData}>Zoek</button>
-        </>
+            <div className="buttons">
+                <button type="button" onClick={handleNewData}>Zoek</button>
+            </div>
+            {countryInfo.map(info => (
+                <p key={info.cca2}>{countryInfo[0].name.common}</p>))}
+            </>
     );
 
 }
-export default App
+
+export default App;
