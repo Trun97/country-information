@@ -1,6 +1,7 @@
 import './App.css';
 import axios from 'axios';
 import {useState} from "react";
+import map from './assets/world_map.png';
 
 function App() {
     const [countryData, setCountryData] = useState([]);
@@ -8,8 +9,8 @@ function App() {
     async function handleData() {
         try {
             const response = await axios.get("https://restcountries.com/v3.1/all");
-            console.log(response.data)
-            const sortedData = response.data.sort((a, b) => a.population - b.population); // Sorteer op populatie
+            // console.log(response.data)
+            const sortedData = response.data.sort((a, b) => a.population - b.population);
 
             setCountryData(sortedData);
         } catch (e) {
@@ -39,12 +40,22 @@ function App() {
                 return "default-color"; //
         }
     }
-
+async function handleNewData () {
+        try {
+            const result = await axios.get("https://restcountries.com/v3.1/all");
+            // console.log(result.data);
+            const newData = result.data.filter((land) => land.name.common === "Netherlands");
+            console.log(newData);
+        }catch (e){
+        }
+}
 
     return (
         <>
+            <img src={map} alt="map"/>
+            <h1>Wordl regions</h1>
+            <br/>
             <button type="button" onClick={handleData}>Klik hier</button>
-
             <ul>
                 {countryData.map(country => (
                     <li key={country.cca3} className={getRegionColor(country.continents[0])}>
@@ -55,6 +66,8 @@ function App() {
                     </li>
                 ))}
             </ul>
+            <h1>Search country information</h1>
+            <button type="button" onClick={handleNewData}>Zoek</button>
         </>
     );
 
