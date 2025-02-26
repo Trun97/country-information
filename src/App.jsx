@@ -2,6 +2,7 @@ import './App.css';
 import axios from 'axios';
 import {useState} from "react";
 import map from './assets/world_map.png';
+import calculatePopulation from "./helpers/calculatePopulation.jsx";
 
 function App() {
     const [countryData, setCountryData] = useState([]);
@@ -48,13 +49,15 @@ function App() {
             const result = await axios.get("https://restcountries.com/v3.1/all");
             // console.log(result.data);
             const newData = result.data.filter((land) => land.name.common === "Netherlands");
+            // console.log(newData);
             // console.log(newData[0].name.common);
             // console.log(newData[0].capital[0]);
             setCountryInfo(newData);
-            // console.log(countryInfo);
         } catch (e) {
         }
     }
+
+    console.log(countryInfo);
     // console.log(countryInfo[0].name.common);
     return (
         <>
@@ -78,9 +81,26 @@ function App() {
             <div className="buttons">
                 <button type="button" onClick={handleNewData}>Zoek</button>
             </div>
+            <div>
+                <label htmlFor="searchCountry">
+                    <input type="text" id="searchCountry" placeholder="Bijv. Nederland of Peru"/>
+                </label>
+                <button type="button">Zoek</button>
+            </div>
             {countryInfo.map(info => (
-                <p key={info.cca2}>{countryInfo[0].name.common}</p>))}
-            </>
+                <div key={info.cca2} className="outerCol-searchbar">
+                    <div className="innerCol-searchbar">
+                        <span className="image-flag">
+                        <img src={info.flags.png} alt="flag" className="pic"/>
+                        </span>
+                        <h1 className="countryName">{info.name.common}</h1>
+                    </div>
+                    <p>{info.name.common} is situated in {info.subregion} and the capital is {info.capital[0]}.
+                        It has a population of {calculatePopulation(info.population)} million people and it borders with {info.borders.length} neighboring
+                        countries</p>
+                </div>
+            ))}
+        </>
     );
 
 }
